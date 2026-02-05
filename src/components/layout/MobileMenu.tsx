@@ -109,16 +109,14 @@ export default function MobileMenu({ isLoggedIn }: MobileMenuProps) {
 
           {/* Navigation Links */}
           <div className="flex flex-col gap-1 mb-6 overflow-y-auto">
-            {isLoggedIn && (
-              <Link
-                href="/dashboard"
-                onClick={closeMenu}
-                className="flex items-center gap-3 px-3 py-3 mb-4 rounded-lg bg-[#b58e85]/10 text-[#b58e85] border border-[#b58e85]/20 hover:bg-[#b58e85]/20 transition-all shadow-sm"
-              >
-                <LayoutDashboard size={20} strokeWidth={1.5} />
-                <span className="font-semibold">{t("dashboard_btn")}</span>
-              </Link>
-            )}
+            <Link
+              href="/dashboard"
+              onClick={closeMenu}
+              className="flex items-center gap-3 px-3 py-3 mb-4 rounded-lg bg-[#b58e85]/10 text-[#b58e85] border border-[#b58e85]/20 hover:bg-[#b58e85]/20 transition-all shadow-sm"
+            >
+              <LayoutDashboard size={20} strokeWidth={1.5} />
+              <span className="font-semibold">{t("dashboard_btn")}</span>
+            </Link>
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
               {t("pages") || (locale === "ar" ? "الصفحات" : "Pages")}
