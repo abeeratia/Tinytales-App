@@ -14,10 +14,8 @@ export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Toggle Dropdown
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  // Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -33,10 +31,8 @@ export default function LanguageSwitcher() {
 
   const switchLocale = (nextLocale: string) => {
     startTransition(() => {
-      // Manual path cleaning to ensure no double locales
       let cleanPath = pathname;
       const segments = pathname.split("/");
-      // If the second segment is a locale (e.g. /en/..., /ar/...), remove it
       if (
         segments.length > 1 &&
         (segments[1] === "en" || segments[1] === "ar")

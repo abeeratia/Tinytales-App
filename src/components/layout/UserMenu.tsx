@@ -41,9 +41,7 @@ export default function UserMenu({ isLoggedIn }: UserMenuProps) {
 
   const confirmLogout = async () => {
     setIsLoading(true);
-    // Simulate API call delay if needed
-    // await api.post("/auth/logout");
-
+   
     Cookies.remove("token");
     toast.success("Logged out successfully");
     router.refresh();
@@ -116,7 +114,6 @@ export default function UserMenu({ isLoggedIn }: UserMenuProps) {
         )}
       </div>
 
-      {/* Logout Confirmation Modal */}
       {isLogoutConfirmOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 animate-in fade-in zoom-in duration-200">

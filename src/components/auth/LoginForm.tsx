@@ -37,7 +37,6 @@ export default function LoginForm() {
     formData.append("password", data.password);
 
     try {
-      // Postman Endpoint: /auth/login
       const response = await api.post("/auth/login", formData);
       const token = response.data.data.token;
 
@@ -46,8 +45,12 @@ export default function LoginForm() {
 
       toast.success("Welcome back!");
       router.push("/dashboard");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
+      const errorMessage =
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error as any).response?.data?.message || "Login failed";
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

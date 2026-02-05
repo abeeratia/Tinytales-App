@@ -36,24 +36,24 @@ export default function VerifyForm() {
     formData.append("type", "client");
 
     try {
-      // Postman Endpoint: /auth/verify-email
       const response = await api.post("/auth/verify-email", formData);
 
-      // Check for logical error in 200 response
       if (response.data && response.data.status === false) {
         throw new Error(response.data.message || "Verification failed");
       }
 
       toast.success("Email verified successfully! Please login.");
 
-      // Remove token to force clean login as requested
       Cookies.remove("token");
 
       router.push("/login");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
       const msg =
-        error.response?.data?.message || error.message || "Verification failed";
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (error as any).response?.data?.message ||
+        (error as Error).message ||
+        "Verification failed";
       toast.error(msg);
     } finally {
       setIsLoading(false);
