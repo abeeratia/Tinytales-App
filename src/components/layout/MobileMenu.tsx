@@ -32,17 +32,16 @@ export default function MobileMenu({ isLoggedIn }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
     setIsLangOpen(false);
-    setIsAuthOpen(false);
   };
   const closeMenu = () => {
     setIsOpen(false);
     setIsLangOpen(false);
-    setIsAuthOpen(false);
   };
 
   useEffect(() => {
@@ -56,12 +55,22 @@ export default function MobileMenu({ isLoggedIn }: MobileMenuProps) {
     };
   }, [isOpen]);
 
-  const handleLogout = async () => {
-    Cookies.remove("token");
-    toast.success(t("logout_success") || "Logged out successfully");
+  const handleLogout = () => {
     closeMenu();
+    setIsLogoutConfirmOpen(true);
+  };
+
+  const confirmLogout = async () => {
+    setIsLoading(true);
+
+    Cookies.remove("token");
+    toast.success(t("logout_success"));
+
     router.refresh();
     router.push("/login");
+
+    setIsLoading(false);
+    setIsLogoutConfirmOpen(false);
   };
 
   const switchLocale = (nextLocale: string) => {
@@ -109,17 +118,19 @@ export default function MobileMenu({ isLoggedIn }: MobileMenuProps) {
 
           {/* Navigation Links */}
           <div className="flex flex-col gap-1 mb-6 overflow-y-auto">
-            <Link
-              href="/dashboard"
-              onClick={closeMenu}
-              className="flex items-center gap-3 px-3 py-3 mb-4 rounded-lg bg-[#b58e85]/10 text-[#b58e85] border border-[#b58e85]/20 hover:bg-[#b58e85]/20 transition-all shadow-sm"
-            >
-              <LayoutDashboard size={20} strokeWidth={1.5} />
-              <span className="font-semibold">{t("dashboard_btn")}</span>
-            </Link>
+            {isLoggedIn && (
+              <Link
+                href="/dashboard"
+                onClick={closeMenu}
+                className="flex items-center gap-3 px-3 py-3 mb-4 rounded-lg bg-[#b58e85]/10 text-[#b58e85] border border-[#b58e85]/20 hover:bg-[#b58e85]/20 transition-all shadow-sm"
+              >
+                <LayoutDashboard size={20} strokeWidth={1.5} />
+                <span className="font-semibold">{t("dashboard_btn")}</span>
+              </Link>
+            )}
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
-              {t("pages") || (locale === "ar" ? "الصفحات" : "Pages")}
+              {t("pages")}
             </p>
             <Link
               href="/"
@@ -153,9 +164,40 @@ export default function MobileMenu({ isLoggedIn }: MobileMenuProps) {
               <Phone size={20} strokeWidth={1.5} />
               <span className="font-medium">{t("contact")}</span>
             </Link>
-          </div>
 
-          {/* Quick Actions Section */}
+            {!isLoggedIn ? (
+              <>
+                <div className="my-2 border-t border-gray-100" />
+                <Link
+                  href="/login"
+                  onClick={closeMenu}
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-[#b58e85] transition-colors"
+                >
+                  <LogIn size={20} strokeWidth={1.5} />
+                  <span className="font-medium">{t("login")}</span>
+                </Link>
+                <Link
+                  href="/register"
+                  onClick={closeMenu}
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-[#b58e85] transition-colors"
+                >
+                  <User size={20} strokeWidth={1.5} />
+                  <span className="font-medium">{t("register")}</span>
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="my-2 border-t border-gray-100" />
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <LogOut size={20} strokeWidth={1.5} />
+                  <span className="font-medium">{t("logout")}</span>
+                </button>
+              </>
+            )}
+          </div>
 
           {/* Account & Language Section */}
           <div className="flex flex-col gap-1 mt-auto border-t border-gray-100 pt-4">
@@ -211,64 +253,45 @@ export default function MobileMenu({ isLoggedIn }: MobileMenuProps) {
                 </div>
               )}
             </div>
-
-            {/* Auth Dropdown */}
-            <div className="flex flex-col">
-              <button
-                onClick={() => setIsAuthOpen(!isAuthOpen)}
-                className="w-full flex items-center justify-between px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-[#b58e85] transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-1 border border-gray-200 rounded-full">
-                    <User size={20} />
-                  </div>
-                </div>
-                <ChevronDown
-                  size={16}
-                  className={`transition-transform duration-200 ${
-                    isAuthOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {isAuthOpen && (
-                <div className="flex flex-col gap-1 px-4 py-2 bg-gray-50/50 rounded-lg mt-1 mx-2 animate-in slide-in-from-top-2">
-                  {isLoggedIn ? (
-                    <>
-                      <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 py-2 text-sm text-red-600 hover:text-red-700"
-                      >
-                        <LogOut size={16} />
-                        {t("logout")}
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        href="/login"
-                        onClick={closeMenu}
-                        className="flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-[#b58e85]"
-                      >
-                        <LogIn size={16} />
-                        {t("login")}
-                      </Link>
-                      <Link
-                        href="/register"
-                        onClick={closeMenu}
-                        className="flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-[#b58e85]"
-                      >
-                        <User size={16} />
-                        {locale === "ar" ? "إنشاء حساب" : "Register"}
-                      </Link>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {isLogoutConfirmOpen && (
+        <div className="fixed inset-0 z-80 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 animate-in fade-in zoom-in duration-200">
+            <div className="flex flex-col items-center text-center mb-6">
+              <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4 text-red-500">
+                <LogOut size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">
+                {t("sign_out")}
+              </h3>
+              <p className="text-gray-500 mt-2 text-sm">
+                {t("sign_out_confirm")}
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setIsLogoutConfirmOpen(false)}
+                className="flex-1 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+                disabled={isLoading}
+              >
+                {t("cancel")}
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-red-500 rounded-lg hover:bg-red-600 transition shadow-sm"
+                disabled={isLoading}
+              >
+                {isLoading ? t("signing_out") : t("sign_out")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
