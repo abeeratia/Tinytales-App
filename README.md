@@ -29,17 +29,21 @@ This project leverages a curated selection of industry-standard tools to ensure 
 
 | Category | Technology | Purpose |
 | :--- | :--- | :--- |
-| **Core Framework** | **Next.js 15 (App Router)** | Advanced SSR, SEO-friendly routing. |
-| **Language** | **TypeScript** | Static typing for robust code. |
-| **UI Components** | **ShadCN / Radix UI** | Headless, accessible primitives. |
-| **Styling** | **Tailwind CSS** | Rapid, optimized styling. |
-| **State** | **Redux Toolkit** | Predictable global state management. |
-| **Forms** | **React Hook Form** | Performant form state. |
-| **Validation** | **Zod** | Schema validation & type inference. |
-| **Internationalization** | **next-intl** | Seamless i18n & translations. |
-| **HTTP Client** | **Axios** | Promise-based API handling. |
-| **Notifications** | **React Hot Toast** | Stacked, customizable toast alerts. |
-| **Carousel** | **Embla Carousel** | Lightweight, bare-bones slider. |
+| **Core Framework** | **Next.js 15 (App Router)** | Advanced SSR, SEO-friendly routing using React 19. |
+| **Language** | **TypeScript 5** | Static typing for robust, enterprise-grade code. |
+| **Global State** | **Redux Toolkit & React Redux** | Predictable, centralized state management. |
+| **UI Primitives** | **ShadCN / Radix UI** | Headless, industry-standard accessible components. |
+| **Styling** | **Tailwind CSS 4** | Next-gen utility-first engine for rapid development. |
+| **Styling Utils** | **clsx & tailwind-merge** | Safe conditional class joining and conflict resolution. |
+| **Forms Handling** | **React Hook Form** | Performant, uncontrolled form state management. |
+| **Validation** | **Zod & @hookform/resolvers** | Schema-driven validation with full type inference. |
+| **Internationalization**| **next-intl** | Sophisticated multi-language (i18n) middleware. |
+| **HTTP Client** | **Axios** | Promise-based API handling with advanced interceptors. |
+| **Authentication** | **js-cookie** | Client-side persistent session management. |
+| **Notifications** | **React Hot Toast** | High-quality, non-blocking user feedback. |
+| **Carousel** | **Embla Carousel / Autoplay** | Ultra-lightweight, fluid touch-friendly sliders. |
+| **Data Sets** | **countries-list** | Standardized international country and phone data. |
+| **Icons** | **Lucide React** | Consistent, optimized SVG iconography. |
 
 ---
 
@@ -55,9 +59,36 @@ This project leverages a curated selection of industry-standard tools to ensure 
 -   **Flow:** Registration -> OTP Verification -> Dashboard Access.
 -   **Middleware:** Route protection logic in `src/middleware.ts` to guard user-only routes.
 
+### 🌍 Advanced Internationalization (i18n)
+-   **Dual-Language Support:** Fully localized in **English (default)** and **Arabic**.
+-   **Middleware Routing:** Leverages `next-intl` middleware for seamless locale-based navigation.
+-   **Dynamic RTL Support:** Layout automatically adapts to **RTL (Right-to-Left)** for Arabic, ensuring an optimal user experience across different scripts.
+-   **Clean URLs:** Configured with `as-needed` prefixing to maintain clean root URLs for the primary language.
+
 ---
 
-## 📂 Modular Project Structure
+## � Engineering Excellence (The Professional Edge)
+
+Beyond the features, this project is built with a focus on long-term maintainability and high-quality software engineering:
+
+### 1. 📐 Centralized Type Management
+-   **Scale-Ready Typing:** All TypeScript interfaces and types are centralized in `src/types/`.
+-   **Impact:** Instead of inline types, we use shared, imported definitions across the whole app. This ensures a "Single Source of Truth," making it impossible for data structures to fall out of sync between the API and the UI components.
+
+### 2. 🧹 Clean Code & Modular Design
+-   **Separation of Concerns:** Logic is strictly separated from presentation. Data fetching lives in `lib/api`, business logic in `services/`, and global state in `store/`.
+-   **Reusable Logic:** Utilities and common types are modularized to be reused, reducing code duplication and making the codebase dry (Don't Repeat Yourself).
+
+### 3. 🛡️ API Adaptation Layer
+-   **Data Integrity:** We don't just consume raw external API data. We use a **Mapper Pattern** in `src/lib/api.ts` to transform external data into our clean, internal `Product` interfaces.
+-   **Resilience:** If the external API changes its field names tomorrow, we only update the mapper in one place—the rest of the app remains untouched.
+
+### 4. 🚀 Zero-Warning Policy
+-   **Code Quality:** The code is strictly linted and strictly typed. I maintain a **Zero Lint Error/Warning** policy to ensure the build pipeline is always green and the project is production-ready at any moment.
+
+---
+
+## �📂 Modular Project Structure
 
 Designed for scalability (feature-based separation):
 
