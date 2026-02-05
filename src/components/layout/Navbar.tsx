@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import LanguageSwitcher from "../shared/LanguageSwitcher";
 import UserMenu from "./UserMenu";
+import MobileMenu from "./MobileMenu";
 import Image from "next/image";
 
 const Navbar = async () => {
@@ -96,22 +97,7 @@ const Navbar = async () => {
         </div>
 
         <div className="lg:hidden">
-          <button className="p-2 text-gray-700">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
+          <MobileMenu isLoggedIn={isLoggedIn} />
         </div>
       </div>
     </nav>

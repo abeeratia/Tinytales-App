@@ -50,6 +50,7 @@ This project leverages a curated selection of industry-standard tools to ensure 
 ## ✨ Key Use Cases Implemented
 
 ### �️ Dynamic Product Ecosystem
+### 🛒 Dynamic Product Ecosystem
 -   **Performance:** Products fetched via generic `fetch` wrappers with caching strategies.
 -   **UX:** Interactive Image Gallery with thumbnails (using `Embla Carousel`).
 -   **Discovery:** "Similar Products" algorithm running on client/server boundary.
@@ -57,7 +58,7 @@ This project leverages a curated selection of industry-standard tools to ensure 
 ### 🔐 Secure Authentication Flow
 -   **Security:** HttpOnly-style cookie management for JWT tokens via `js-cookie`.
 -   **Flow:** Registration -> OTP Verification -> Dashboard Access.
--   **Middleware:** Route protection logic in `src/middleware.ts` to guard user-only routes.
+-   **Centralized Protection:** Robust route guarding in `src/middleware.ts` which intercepts requests to ensure only authenticated users can access `/dashboard` and other protected areas, providing a seamless and secure UX.
 
 ### 🌍 Advanced Internationalization (i18n)
 -   **Dual-Language Support:** Fully localized in **English (default)** and **Arabic**.
