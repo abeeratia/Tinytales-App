@@ -129,7 +129,7 @@ export default async function HomePage() {
                   </span>
                   <div className="flex items-center text-yellow-500 text-xs">
                     <Star size={14} fill="currentColor" />
-                    <span className="ml-1 text-gray-400">{item.rating}</span>
+                    <span className="ms-1 text-gray-400">{item.rating}</span>
                   </div>
                 </div>
               </Link>

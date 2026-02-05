@@ -2,6 +2,7 @@
 
 import React, { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import { useLocale } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EmblaOptionsType } from "embla-carousel";
@@ -21,7 +22,13 @@ export const ProductCarousel = ({
   plugins = [],
   showArrows = true,
 }: ProductCarouselProps) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(opts, plugins);
+  const locale = useLocale();
+  const direction = locale === "ar" ? "rtl" : "ltr";
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { ...opts, direction },
+    plugins
+  );
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -32,11 +39,11 @@ export const ProductCarousel = ({
   }, [emblaApi]);
 
   return (
-    <div className={cn("relative group", className)}>
+    <div className={cn("relative group", className)} dir={direction}>
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex -ml-4 touch-pan-y">
+        <div className="flex -ml-4 rtl:-mr-4 rtl:ml-0 touch-pan-y">
           {React.Children.map(children, (child) => (
-            <div className="flex-[0_0_85%] min-w-0 sm:flex-[0_0_50%] md:flex-[0_0_33.333%] lg:flex-[0_0_25%] pl-4">
+            <div className="flex-[0_0_85%] min-w-0 sm:flex-[0_0_50%] md:flex-[0_0_33.333%] lg:flex-[0_0_25%] pl-4 rtl:pr-4 rtl:pl-0">
               {child}
             </div>
           ))}
